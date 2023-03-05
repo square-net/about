@@ -102,7 +102,7 @@ const NavContent = styled.nav`
     }
     
     @media ${devices.tablet} {
-        position: relative;
+        position: unset;
         flex-direction: row;
         top: unset;
         left: unset;
@@ -244,6 +244,23 @@ function Nav() {
     const ref1 = React.useRef<HTMLDivElement>(null);
     const ref2 = React.useRef<HTMLDivElement>(null);
     const ref3 = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 768) {
+                setMenu(true);
+            } else {
+                setMenu(false);
+            }
+        };
+
+        handleResize();
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     const handleDropDownClick = (index: number) => {
         setActiveDropDown(activeDropDown === index ? null : index);
