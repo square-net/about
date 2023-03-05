@@ -8,9 +8,7 @@ import { SEO } from "../components/Seo";
 const IndexPage: React.FC<PageProps> = () => {
     return (
         <>
-            <PageLayout
-                children={<>Home</>}
-            />
+            <PageLayout children={<>Home</>} />
         </>
     );
 };

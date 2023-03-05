@@ -6,9 +6,7 @@ import { SEO } from "../components/Seo";
 const NotFoundPage: React.FC<PageProps> = () => {
     return (
         <>
-            <PageLayout
-                children={<>404</>}
-            />
+            <PageLayout children={<>404</>} />
         </>
     );
 };

@@ -33,7 +33,8 @@ const SiteBrand = styled.div`
         text-decoration: none;
     }
 
-    a:hover, a:active {
+    a:hover,
+    a:active {
         text-decoration: none;
     }
 `;
@@ -79,16 +80,18 @@ const NavEntryButton = styled.div`
     cursor: pointer;
     border-bottom: 2px solid transparent;
 
-    &:hover, &:focus, &.active {
+    &:hover,
+    &:focus,
+    &.active {
         border-bottom: 2px solid #039be5;
-    }    
+    }
 `;
 
 const NavEntryContainer = styled.div`
     display: block;
 `;
 
-const NavDropdownMenu = styled.div`
+const NavDropDownMenu = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -121,15 +124,61 @@ const MenuButton = styled.div`
     display: none;
 `;
 
+interface DropDownProps {
+    title: string;
+    children: JSX.Element;
+    isOpen: boolean;
+    toggleDropDown: () => void;
+}
+
+const DropDown: React.FC<DropDownProps> = ({ title, children, isOpen, toggleDropDown }) => {
+    return (
+        <NavEntryContainer>
+            <NavEntryButton
+                role="button"
+                title={title}
+                aria-label={title}
+                onClick={toggleDropDown}
+            >
+                <PageText>{title}</PageText>
+                <Down />
+            </NavEntryButton>
+            {isOpen && <NavDropDownMenu>{children}</NavDropDownMenu>}
+        </NavEntryContainer>
+    );
+};
+
 function Nav() {
+    const [activeDropDown, setActiveDropDown] = React.useState<number | null>(null);
+    const ref = React.useRef<HTMLDivElement>(null);
+
+    const handleDropDownClick = (index: number) => {
+        setActiveDropDown(activeDropDown === index ? null : index);
+    };
+
+    const handleClickOutside = (event: MouseEvent) => {
+        if (ref.current && !ref.current.contains(event.target as Node)) {
+            setActiveDropDown(null);
+        }
+    };
+
+    React.useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     return (
         <NavContainer>
             <SiteBrand>
-                <Link to="/" title="Square Homepage" aria-label="Square Homepage">
+                <Link
+                    to="/"
+                    title="Square Homepage"
+                    aria-label="Square Homepage"
+                >
                     <Logo type="nav" />
-                    <SiteTitle>
-                        Square
-                    </SiteTitle>
+                    <SiteTitle>Square</SiteTitle>
                 </Link>
             </SiteBrand>
             <HeaderRightContent>
@@ -139,112 +188,109 @@ function Nav() {
                     </ControlContainer>
                 </MenuButton>
                 <NavContent>
-                    <NavEntryContainer>
-                        <NavEntryButton
-                            role="button"
+                    <div ref={ref}>
+                        <DropDown
                             title="Who we are"
-                            aria-label="Who we are"
-                        >
-                            <PageText>Who we are</PageText>
-                            <Down />
-                        </NavEntryButton>
-                        <NavDropdownMenu>
-                            <NavEntry>
-                                <Link
-                                    to="/about-us"
-                                    activeClassName="current-page"
-                                    title="About us"
-                                    aria-label="About us"
-                                >
-                                    About us
-                                </Link>
-                            </NavEntry>
-                            <NavEntry>
-                                <Link
-                                    to="/careers"
-                                    activeClassName="current-page"
-                                    title="Careers"
-                                    aria-label="Careers"
-                                >
-                                    Careers
-                                </Link>
-                            </NavEntry>
-                            <NavEntry>
-                                <Link
-                                    to="/brand-toolkit"
-                                    activeClassName="current-page"
-                                    title="Brand toolkit"
-                                    aria-label="Brand toolkit"
-                                >
-                                    Brand toolkit
-                                </Link>
-                            </NavEntry>
-                        </NavDropdownMenu> 
-                    </NavEntryContainer>
-                    <NavEntryContainer>
-                        <NavEntryButton
-                            role="button"
+                            isOpen={activeDropDown === 0}
+                            toggleDropDown={() => handleDropDownClick(0)}
+                            children={
+                                <>
+                                    <NavEntry>
+                                        <Link
+                                            to="/about-us"
+                                            activeClassName="current-page"
+                                            title="About us"
+                                            aria-label="About us"
+                                        >
+                                            About us
+                                        </Link>
+                                    </NavEntry>
+                                    <NavEntry>
+                                        <Link
+                                            to="/careers"
+                                            activeClassName="current-page"
+                                            title="Careers"
+                                            aria-label="Careers"
+                                        >
+                                            Careers
+                                        </Link>
+                                    </NavEntry>
+                                    <NavEntry>
+                                        <Link
+                                            to="/brand-toolkit"
+                                            activeClassName="current-page"
+                                            title="Brand toolkit"
+                                            aria-label="Brand toolkit"
+                                        >
+                                            Brand toolkit
+                                        </Link>
+                                    </NavEntry>
+                                </>
+                            }
+                        />
+                    </div>
+                    <div ref={ref}>
+                        <DropDown
                             title="Our priorities"
-                            aria-label="Our priorities"
-                        >
-                            <PageText>Our priorities</PageText>
-                            <Down />
-                        </NavEntryButton>
-                        <NavDropdownMenu>
-                            <NavEntry>
-                                <Link
-                                    to="/an-open-world"
-                                    activeClassName="current-page"
-                                    title="An open world"
-                                    aria-label="An open world"
-                                >
-                                    An open world
-                                </Link>
-                            </NavEntry>
-                            <NavEntry>
-                                <Link
-                                    to="/security-and-privacy"
-                                    activeClassName="current-page"
-                                    title="Security and privacy"
-                                    aria-label="Security and privacy"
-                                >
-                                    Security and privacy
-                                </Link>
-                            </NavEntry>
-                        </NavDropdownMenu>  
-                    </NavEntryContainer>
-                    <NavEntryContainer>
-                        <NavEntryButton
-                            role="button"
+                            isOpen={activeDropDown === 1}
+                            toggleDropDown={() => handleDropDownClick(1)}
+                            children={
+                                <>
+                                    <NavEntry>
+                                        <Link
+                                            to="/an-open-world"
+                                            activeClassName="current-page"
+                                            title="An open world"
+                                            aria-label="An open world"
+                                        >
+                                            An open world
+                                        </Link>
+                                    </NavEntry>
+                                    <NavEntry>
+                                        <Link
+                                            to="/security-and-privacy"
+                                            activeClassName="current-page"
+                                            title="Security and privacy"
+                                            aria-label="Security and privacy"
+                                        >
+                                            Security and privacy
+                                        </Link>
+                                    </NavEntry>
+                                </>
+                            }
+                        />
+                    </div>
+                    <div ref={ref}>
+                        <DropDown
                             title="Resources"
-                            aria-label="Resources"
-                        >
-                            <PageText>Resources</PageText>
-                            <Down />
-                        </NavEntryButton>
-                        <NavDropdownMenu>
-                            <NavEntry>
-                                <Link
-                                    to="/help-center"
-                                    activeClassName="current-page"
-                                    title="Help Center"
-                                    aria-label="Help Center"
-                                >
-                                    Help Center
-                                </Link>
-                            </NavEntry>
-                            <NavEntry>
-                                <Link
-                                    to="/contact-us"
-                                    activeClassName="current-page"
-                                    title="Contact us"
-                                    aria-label="Contact us"
-                                >
-                                    Contact us
-                                </Link>
-                            </NavEntry>
-                        </NavDropdownMenu>    
-                    </NavEntryContainer>
+                            isOpen={activeDropDown === 2}
+                            toggleDropDown={() => handleDropDownClick(2)}
+                            children={
+                                <>
+                                    <NavEntry>
+                                        <Link
+                                            to="/help-center"
+                                            activeClassName="current-page"
+                                            title="Help Center"
+                                            aria-label="Help Center"
+                                        >
+                                            Help Center
+                                        </Link>
+                                    </NavEntry>
+                                    <NavEntry>
+                                        <Link
+                                            to="/contact-us"
+                                            activeClassName="current-page"
+                                            title="Contact us"
+                                            aria-label="Contact us"
+                                        >
+                                            Contact us
+                                        </Link>
+                                    </NavEntry>
+                                </>
+                            }
+                        />
+                    </div>
                 </NavContent>
                 <NavButton
                     type="button"
