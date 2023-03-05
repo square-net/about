@@ -2,8 +2,8 @@ import type { GatsbyConfig } from "gatsby";
 
 const config: GatsbyConfig = {
     siteMetadata: {
-        title: `about`,
-        siteUrl: `https://www.yourdomain.tld`,
+        title: `Square`,
+        siteUrl: `https://projectsquare.online`,
     },
     // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
     // If you use VSCode you can also use the GraphQL plugin
@@ -24,18 +24,11 @@ const config: GatsbyConfig = {
             resolve: "gatsby-plugin-manifest",
             options: {
                 icon: "./src/images/icon.png",
-                icons: [
-                    {
-                        src: "./src/images/favicon.ico",
-                        sizes: "64x64 32x32 24x24 16x16",
-                        type: "image/x-icon",
-                    },
-                ],
                 name: "Square",
                 short_name: "Square",
                 start_url: "/",
-                background_color: "#039BE5",
-                theme_color: "#039BE5",
+                background_color: "#ffffff",
+                theme_color: "#ffffff",
                 display: "standalone",
             },
         },

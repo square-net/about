@@ -91,3 +91,22 @@ export const LinkButton = styled(Link)`
         text-decoration: none;
     }
 `;
+
+export const ControlContainer = styled.div.attrs(
+    (props: { size?: number }) => props
+)`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: ${(props) => (props.size ? `${props.size}px` : `36px`)};
+    height: ${(props) => (props.size ? `${props.size}px` : `36px`)};
+    border-radius: 9999px;
+    background-color: transparent;
+    transition: background-color ease 0.2s;
+
+    &:hover,
+    &:focus {
+        background-color: #c0c0c0;
+    }
+`;
