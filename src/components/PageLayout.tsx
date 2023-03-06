@@ -10,6 +10,7 @@ interface PageLayoutProps {
 const MainComponent = styled.div`
     display: block;
     margin-top: 100px;
+    min-height: calc(100vh - 100px);
 `;
 
 export const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
