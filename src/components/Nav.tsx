@@ -307,7 +307,7 @@ function Nav() {
             setActiveDropDown(null);
         }
 
-        if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        if (menuRef.current && !menuRef.current.contains(event.target as Node) && (window.innerWidth < 768)) {
             setVisible(false);
             setTimeout(() => {
                 setMenu(false);
