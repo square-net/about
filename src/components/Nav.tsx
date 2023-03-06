@@ -274,6 +274,8 @@ function Nav() {
 
     React.useEffect(() => {
         const handleResize = () => {
+            document.body.classList.remove("not-scrolling");
+
             if (window.innerWidth > 768) {
                 setMenu(true);
                 setVisible(true);
@@ -312,6 +314,7 @@ function Nav() {
             setVisible(false);
             setTimeout(() => {
                 setMenu(false);
+                document.body.classList.remove("not-scrolling");
             }, 200);
         }
     };
@@ -344,6 +347,7 @@ function Nav() {
                         onClick={() => {
                             setMenu(true);
                             setVisible(true);
+                            document.body.classList.add("not-scrolling");
                         }}
                     >
                         <Menu />
@@ -361,6 +365,7 @@ function Nav() {
                                     setVisible(false);
                                     setTimeout(() => {
                                         setMenu(false);
+                                        document.body.classList.remove("not-scrolling");
                                     }, 200);
                                 }}
                             >
