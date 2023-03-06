@@ -75,7 +75,9 @@ const NavButton = styled(Button)`
     }
 `;
 
-const NavContent = styled.nav`
+const NavContent = styled.nav.attrs(
+    (props: { visible: boolean }) => props
+)`
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -95,6 +97,7 @@ const NavContent = styled.nav`
     height: 100vh;
     overflow: auto;
     box-shadow: none;
+    animation: ${(props) => (props.visible ? `slideIn` : `slideOut`)} 0.2s;
 
     @media ${devices.mobileL} {
         width: 64%;
@@ -119,10 +122,31 @@ const NavContent = styled.nav`
         align-items: center;
         justify-content: flex-end;
         box-shadow: none;
+        animation: none;
     }
 
     @media ${devices.laptopS} {
         gap: 24px;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+        }
+
+        to {
+            transform: translateX(0%);
+        }
+    }
+
+    @keyframes slideOut {
+        from {
+            transform: translateX(0%);
+        }
+
+        to {
+            transform: translateX(100%);
+        }
     }
 `;
 
@@ -244,13 +268,17 @@ function Nav() {
     const ref1 = React.useRef<HTMLDivElement>(null);
     const ref2 = React.useRef<HTMLDivElement>(null);
     const ref3 = React.useRef<HTMLDivElement>(null);
+    const menuRef = React.useRef<HTMLDivElement>(null);
+    const [visible, setVisible] = React.useState(true);
 
     React.useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth > 768) {
                 setMenu(true);
+                setVisible(true);
             } else {
                 setMenu(false);
+                setVisible(false);
             }
         };
 
@@ -277,6 +305,13 @@ function Nav() {
 
         if (ref3.current && !ref3.current.contains(event.target as Node)) {
             setActiveDropDown(null);
+        }
+
+        if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+            setVisible(false);
+            setTimeout(() => {
+                setMenu(false);
+            }, 200);
         }
     };
 
@@ -307,13 +342,14 @@ function Nav() {
                         aria-label="Open menu"
                         onClick={() => {
                             setMenu(true);
+                            setVisible(true);
                         }}
                     >
                         <Menu />
                     </ControlContainer>
                 </MenuButton>
                 {menu && (
-                    <NavContent>
+                    <NavContent visible={visible} ref={menuRef}>
                         <MobileMenuHeader>
                             <MenuTitle>Menu</MenuTitle>
                             <ControlContainer
@@ -321,7 +357,10 @@ function Nav() {
                                 title="Close menu"
                                 aria-label="Close menu"
                                 onClick={() => {
-                                    setMenu(false);
+                                    setVisible(false);
+                                    setTimeout(() => {
+                                        setMenu(false);
+                                    }, 200);
                                 }}
                             >
                                 <Close type="normal" />
