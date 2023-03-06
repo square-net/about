@@ -2,7 +2,7 @@ import { Link } from "gatsby";
 import * as React from "react";
 import styled from "styled-components";
 import { devices } from "../styles/devices";
-import { Button, ControlContainer, PageText } from "../styles/global";
+import { ControlContainer, LinkButton, PageText } from "../styles/global";
 import Close from "./icons/Close";
 import Down from "./icons/Down";
 import Logo from "./icons/Logo";
@@ -65,7 +65,7 @@ const HeaderRightContent = styled.div`
     }
 `;
 
-const NavButton = styled(Button)`
+const NavLink = styled(LinkButton)`
     display: none;
     background-color: #039be5;
     color: #ffffff;
@@ -472,14 +472,14 @@ function Nav() {
                         </div>
                     </NavContent>
                 )}
-                <NavButton
-                    type="button"
+                <NavLink
                     title="Coming soon"
+                    to="/"
                     role="button"
                     aria-label="Coming soon"
                 >
                     Coming soon
-                </NavButton>
+                </NavLink>
             </HeaderRightContent>
         </NavContainer>
     );
