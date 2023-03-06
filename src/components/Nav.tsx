@@ -162,6 +162,7 @@ const NavEntryButton = styled.div`
     color: #000000;
     cursor: pointer;
     border-bottom: 2px solid transparent;
+    width: max-content;
 
     &:hover,
     &:focus,
@@ -257,7 +258,7 @@ const DropDown: React.FC<DropDownProps> = ({ title, children, isOpen, toggleDrop
                 <PageText>{title}</PageText>
                 <Down />
             </NavEntryButton>
-            {isOpen && <NavDropDownMenu>{children}</NavDropDownMenu>}
+            {isOpen && <NavDropDownMenu id="dropdown-menu" onClick={(e) => e.preventDefault()}>{children}</NavDropDownMenu>}
         </NavEntryContainer>
     );
 };
@@ -295,15 +296,15 @@ function Nav() {
     };
 
     const handleClickOutside = (event: MouseEvent) => {
-        if (ref1.current && !ref1.current.contains(event.target as Node)) {
+        if (ref1.current && !ref1.current.contains(event.target as Node) && event.target instanceof HTMLElement && !event.target.closest("#dropdown-menu")) {
             setActiveDropDown(null);
         }
         
-        if (ref2.current && !ref2.current.contains(event.target as Node)) {
+        if (ref2.current && !ref2.current.contains(event.target as Node) && event.target instanceof HTMLElement && !event.target.closest("#dropdown-menu")) {
             setActiveDropDown(null);
         }
 
-        if (ref3.current && !ref3.current.contains(event.target as Node)) {
+        if (ref3.current && !ref3.current.contains(event.target as Node) && event.target instanceof HTMLElement && !event.target.closest("#dropdown-menu")) {
             setActiveDropDown(null);
         }
 
