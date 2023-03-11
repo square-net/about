@@ -110,3 +110,21 @@ export const ControlContainer = styled.div.attrs(
         background-color: #c0c0c0;
     }
 `;
+
+export const PageTitle = styled.div`
+    display: block;
+    font-weight: 700;
+    font-size: 32px;
+
+    @media ${devices.mobileL} {
+        font-size: 42px;
+    }
+
+    @media ${devices.tablet} {
+        font-size: 52px;
+    }
+
+    @media ${devices.laptopS} {
+        font-size: 64px;
+    }
+`;
