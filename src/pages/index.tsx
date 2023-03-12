@@ -69,7 +69,6 @@ const IndexLinkButton = styled(LinkButton)`
 
 const MediaBlockContainer = styled.div`
     display: grid;
-    position: relative;
     align-items: unset;
     grid-template-columns: 100%;
     grid-template-rows: auto auto;
